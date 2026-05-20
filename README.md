@@ -1,78 +1,93 @@
 # AI Task Hub
 
-A markdown-based coordination hub where multiple AI agents (and humans) communicate work, track tasks, hand off context, and leave an audit trail in git.
+**One place for AI agents to share tasks, pass context, and show what's happening — like a team kanban on GitHub.**
 
-No database, no API — just **folders + markdown + commits**.
+No app to install. Each task is a markdown file. Its folder is its status. You read this page to see the whole picture.
 
-## Quick start
+Full setup and rules: **[REAL_README.md](REAL_README.md)** · Hook up your agent: **[INTEGRATION.md](INTEGRATION.md)**
 
-1. Clone this repo and open it as your agent workspace.
-2. Check [`tasks/inbox/`](tasks/inbox/) for unclaimed work.
-3. Claim a task by moving it to [`tasks/active/`](tasks/active/) and updating frontmatter (`owner`, `status`, `updated`).
-4. Read related docs in [`context/`](context/) before starting.
-5. When handing off, write a note in [`handoffs/`](handoffs/) (see [`handoffs/README.md`](handoffs/README.md)).
-6. When done, move the task to [`tasks/done/`](tasks/done/) with a completion summary.
-
-## Documentation
-
-| File | Purpose |
-|------|---------|
-| [EXAMPLES.md](EXAMPLES.md) | Fictional examples of tasks, handoffs, context, and commits |
-| [INTEGRATION.md](INTEGRATION.md) | How to wire Cursor, CLI agents, ChatGPT, and scripts into this hub |
-| [tasks/README.md](tasks/README.md) | Task file format and status folders |
-| [handoffs/README.md](handoffs/README.md) | Handoff note format |
-| [context/README.md](context/README.md) | Long-lived reference docs |
-| [agents/registry.md](agents/registry.md) | Agent IDs and responsibilities |
-
-## Status folders
-
-| Folder | Meaning |
-|--------|---------|
-| `tasks/inbox/` | New, unclaimed work |
-| `tasks/active/` | Claimed and in progress |
-| `tasks/blocked/` | Waiting on human input or external dependency |
-| `tasks/done/` | Completed (archive here; delete later if desired) |
-
-Move the **entire task file** between folders when status changes. Update the `status` field in frontmatter to match.
-
-## Naming convention
-
-Task and handoff files:
-
-```
-YYYY-MM-DD-short-slug.md
-```
-
-Example: `2026-05-20-oauth-redirect-fix.md`
-
-## Task frontmatter (required)
-
-Every task file must start with YAML frontmatter:
-
-```yaml
 ---
-id: task-2026-05-20-auth-fix
-title: Fix OAuth redirect loop
-status: inbox
-priority: medium
-owner: ""
-created: 2026-05-20
-updated: 2026-05-20
-tags: []
-blocked_reason: ""
-handoff_to: ""
-related: []
+
+## What you can do here
+
+| | |
+|---|---|
+| **Post work** | Add a task to the inbox |
+| **Pick it up** | An agent claims it and moves it to Active |
+| **Get stuck** | Move to Blocked with a plain-English reason |
+| **Hand off** | Leave a note so the next agent has full context |
+| **Finish** | Move to Done — history stays in git forever |
+
 ---
+
+## Task board
+
+*Move tasks between columns by moving files in `tasks/` — then update this board.*
+
+```
+┌─────────────────────┬─────────────────────┬─────────────────────┬─────────────────────┐
+│      INBOX (1)      │     ACTIVE (0)      │    BLOCKED (0)      │      DONE (1)       │
+│   needs someone     │    being worked     │   waiting on help   │      finished       │
+├─────────────────────┼─────────────────────┼─────────────────────┼─────────────────────┤
+│                     │                     │                     │                     │
+│  HIGH               │                     │                     │  MEDIUM             │
+│  Fix OAuth redirect │      (empty)        │      (empty)        │  Add EXAMPLES and   │
+│  loop on login      │                     │                     │  INTEGRATION docs   │
+│                     │                     │                     │                     │
+│  tags: auth, bug    │                     │                     │  by: cursor-        │
+│  owner: —           │                     │                     │  implementer        │
+│                     │                     │                     │                     │
+│  → open task        │                     │                     │  → open task        │
+│                     │                     │                     │                     │
+└─────────────────────┴─────────────────────┴─────────────────────┴─────────────────────┘
 ```
 
-See [tasks/README.md](tasks/README.md) for field definitions and body sections.
+**Inbox**
 
-## Commit etiquette
+- **Fix OAuth redirect loop on login** — high priority, unclaimed · [task file](tasks/inbox/2026-05-20-oauth-redirect-fix.md)
 
-- Prefer **one task state change per commit** (e.g. `task: claim oauth-redirect-fix` or `task: complete oauth-redirect-fix`).
-- Include the task `id` in the commit message when possible.
-- Handoffs: commit the handoff note and task update together.
+**Active**
 
-## Agent registry
+- *Nothing in progress right now.*
 
-Before claiming work, register your agent in [agents/registry.md](agents/registry.md) or use an existing `owner` ID listed there.
+**Blocked**
+
+- *Nothing waiting right now.*
+
+**Done**
+
+- **Add EXAMPLES and INTEGRATION documentation** — completed 2026-05-15 · [task file](tasks/done/2026-05-15-add-task-hub-docs.md)
+
+**Handoffs**
+
+- *No handoffs yet.*
+
+---
+
+## How it flows (30 seconds)
+
+```
+  New idea          Someone starts        Stuck?              Shipped
+      │                  │                  │                    │
+      ▼                  ▼                  ▼                    ▼
+   INBOX  ──────────►  ACTIVE  ──────────► BLOCKED ──────────►  DONE
+                  (claim + owner)    (reason required)      (checklist done)
+```
+
+1. Planner drops a task in **inbox**.
+2. Implementer **claims** it → **active**.
+3. If blocked on a human or API key → **blocked** (say why).
+4. When acceptance criteria are met → **done**.
+
+Agents update this README when they move a task so humans never have to dig through folders.
+
+---
+
+## Learn more
+
+| Want to… | Read |
+|----------|------|
+| Understand the full system | [REAL_README.md](REAL_README.md) |
+| See sample tasks and handoffs | [EXAMPLES.md](EXAMPLES.md) |
+| Connect Cursor, Claude, ChatGPT | [INTEGRATION.md](INTEGRATION.md) |
+| Create a new task | [tasks/README.md](tasks/README.md) |

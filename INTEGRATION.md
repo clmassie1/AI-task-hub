@@ -5,7 +5,7 @@ How to connect AI agents and tools to this task hub. The hub is **file-based** â
 ## Prerequisites
 
 1. Clone the repo (or add it as a workspace root).
-2. Read [README.md](README.md) and [tasks/README.md](tasks/README.md).
+2. Read [README.md](README.md) (command board) and [REAL_README.md](REAL_README.md) (full guide). See [tasks/README.md](tasks/README.md) for task format.
 3. Pick or register an `owner` ID in [agents/registry.md](agents/registry.md).
 
 ---

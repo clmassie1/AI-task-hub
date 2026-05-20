@@ -106,4 +106,5 @@ related: []
 1. Check all acceptance criteria.
 2. Add final progress log and artifacts (PR links, etc.).
 3. Move file to `done/`, set `status: done`.
-4. Commit: `task: complete <slug>`
+4. Update the kanban board in [README.md](../README.md).
+5. Commit: `task: complete <slug>`
